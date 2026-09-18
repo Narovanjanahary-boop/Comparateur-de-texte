@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Analyseur de Textes Comparatif</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="brand">
+            📊&nbsp; Analyseur de Textes Comparatif
+        </div>
+
+        <div class="subtitle">
+            Comparez deux documents et visualisez leurs différences
+        </div>
+    </header>
+
+    <main>
+
+        <section class="panels">
+
+            <!-- TEXTE 1 -->
+            <article class="card file-panel">
+
+                <div class="file-head">
+                    <strong id="name1">
+                        Aucun fichier — Texte 1
+                        (collez votre texte ou importez un fichier)
+                    </strong>
+
+                    <button class="info" onclick="fileInfo(1)">
+                        ⓘ
+                    </button>
+                </div>
+
+                <div class="text-wrap">
+                    <div
+                        id="text1"
+                        class="editor"
+                        contenteditable="true"
+                        data-placeholder=""
+                    ></div>
+                </div>
+
+                <input
+                    id="file1"
+                    type="file"
+                    accept=".txt,.pdf,.docx,.rtf,.md,.csv"
+                    hidden
+                    onchange="loadFile(1)"
+                >
+
+                <button
+                    class="browse"
+                    onclick="document.getElementById('file1').click()"
+                >
+                    📁 &nbsp;Parcourir…
+                </button>
+
+            </article>
+
+
+            <!-- BARRE D'OUTILS -->
+            <nav class="tools">
+
+                <button
+                    title="Analyser les deux textes"
+                    onclick="analyse()"
+                >
+                    ▶
+                </button>
+
+                <button
+                    title="Enregistrer les résultats en PDF"
+                    onclick="exportPDF()"
+                >
+                    💾
+                </button>
+
+                <button
+                    title="Recommencer l'analyse (garder les textes)"
+                    onclick="recommencer()"
+                >
+                    🔄
+                </button>
+
+                <button
+                    title="Rechercher un mot"
+                    onclick="rechercher()"
+                >
+                    🔍
+                </button>
+
+                <button
+                    title="Restaurer / retirer les deux textes et les résultats"
+                    onclick="restaurer()"
+                >
+                    ✖
+                </button>
+
+            </nav>
+
+
+            <!-- TEXTE 2 -->
+            <article class="card file-panel">
+
+                <div class="file-head">
+                    <strong id="name2">
+                        Aucun fichier — Texte 2
+                        (collez votre texte ou importez un fichier)
+                    </strong>
+
+                    <button class="info" onclick="fileInfo(2)">
+                        ⓘ
+                    </button>
+                </div>
+
+                <div class="text-wrap">
+                    <div
+                        id="text2"
+                        class="editor"
+                        contenteditable="true"
+                    ></div>
+                </div>
+
+                <input
+                    id="file2"
+                    type="file"
+                    accept=".txt,.pdf,.docx,.rtf,.md,.csv"
+                    hidden
+                    onchange="loadFile(2)"
+                >
+
+                <button
+                    class="browse"
+                    onclick="document.getElementById('file2').click()"
+                >
+                    📁 &nbsp;Parcourir…
+                </button>
+
+            </article>
+
+        </section>
+
+
+        <!-- RÉSULTATS -->
+        <section class="results-grid">
+
+            <article class="card results">
+
+                <h3>
+                    Résultats de l'analyse
+                </h3>
+
+                <div
+                    id="resultsBody"
+                    class="results-body empty"
+                >
+                    Collez du texte ou importez deux fichiers dans les deux
+                    cases, puis lancez l'analyse (▶) pour afficher les
+                    résultats ici.
+                </div>
+
+            </article>
+
+
+            <!-- LÉGENDE -->
+            <article class="card legend">
+
+                <div class="legend-head">
+
+                    <h3>
+                        Signification des couleurs
+                    </h3>
+
+                    <button
+                        class="info"
+                        onclick="about()"
+                    >
+                        ?
+                    </button>
+
+                </div>
+
+
+                <div class="legend-row">
+
+                    <i class="dot red"></i>
+
+                    <span>
+                        <b>Mot souligné en rouge :</b>
+                        différent, absent de l'autre texte
+                    </span>
+
+                </div>
+
+
+                <div class="legend-row">
+
+                    <i class="dot green"></i>
+
+                    <span>
+                        <b>Mot souligné en vert :</b>
+                        modifié (remplacé par un autre mot)
+                    </span>
+
+                </div>
+
+
+                <div class="legend-row">
+
+                    <i class="dot gray"></i>
+
+                    <span>
+                        <b>Mot sans soulignement :</b>
+                        identique dans les deux textes
+                    </span>
+
+                </div>
+
+
+                <hr>
+
+
+                <p>
+                    🔍 Bouton pour rechercher un mot dans les deux textes.
+                    <br>
+                    Utilisez la barre d'outils centrale pour lancer une
+                    recherche, exporter le rapport en PDF, recommencer
+                    l'analyse ou restaurer les deux fichiers.
+                </p>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <!-- BARRE DE STATUT -->
+    <footer id="status">
+        Prêt. Collez du texte ou importez deux fichiers pour lancer l'analyse.
+    </footer>
+
+
+    <!-- MODALE -->
+    <div
+        id="modal"
+        class="modal"
+        hidden
+    >
+
+        <div class="modal-box">
+
+            <button
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+            <div id="modalContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="/static/app.js"></script>
+
+</body>
+</html>
